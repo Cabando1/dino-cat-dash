@@ -1,0 +1,31 @@
+/* Prevent iPad Safari from sliding the page while the game is active. */
+html.gameplay-locked {
+  height: 100%;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+}
+
+body.gameplay-locked {
+  position: fixed !important;
+  left: 0;
+  right: 0;
+  width: 100%;
+  overflow: hidden !important;
+  overscroll-behavior: none !important;
+  -webkit-overflow-scrolling: auto;
+  touch-action: none;
+}
+
+body.gameplay-locked .shell,
+body.gameplay-locked .stage,
+body.gameplay-locked .stage canvas,
+body.gameplay-locked .controls,
+body.gameplay-locked .controls button {
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+}
+
+body.gameplay-locked .controls {
+  position: static !important;
+  transform: none !important;
+}
