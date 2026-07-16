@@ -1,41 +1,21 @@
-(() => {
+(async () => {
   'use strict';
-  const c=document.getElementById('gameCanvas'),x=c.getContext('2d');
-  const $=id=>document.getElementById(id);
-  const ui={score:$('score'),high:$('highScore'),lives:$('lives'),level:$('level'),power:$('power'),bonus:$('bonus'),overlay:$('overlay'),title:$('overlayTitle'),text:$('overlayText'),start:$('startButton')};
-  const W=c.width,H=c.height,G=438;
-  let state='menu',last=0,t=0,score=0,lives=3,level=1,speed=350,spawn=1.2,powerSpawn=5,starSpawn=3.5,mult=1,multTime=0,boss=null,high=0,sound=true;
-  try{high=Number(localStorage.getItem('dinoCatDashHighScore')||0)}catch(e){}
-  const p={x:125,y:G-72,w:78,h:72,vy:0,ground:true,inv:0,power:'none',ammo:0,cool:0};
-  const obs=[],items=[],shots=[],enemy=[],parts=[];
-  const rnd=(a,b)=>a+Math.random()*(b-a),hit=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
-  function beep(f=440,d=.06){if(!sound)return;try{const A=beep.a||(beep.a=new(window.AudioContext||window.webkitAudioContext)()),o=A.createOscillator(),g=A.createGain();o.frequency.value=f;g.gain.value=.035;o.connect(g);g.connect(A.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,A.currentTime+d);o.stop(A.currentTime+d)}catch(e){}}
-  function hud(){ui.score.textContent=Math.floor(score).toLocaleString();ui.high.textContent=Math.max(high,Math.floor(score)).toLocaleString();ui.lives.textContent='❤'.repeat(Math.max(0,lives))||'0';ui.level.textContent=boss?'Boss':level;ui.power.textContent=p.power==='none'?'None':`${p.power==='flame'?'Flame':'Laser'} (${p.ammo})`;ui.bonus.textContent='x'+mult}
-  function reset(){state='play';t=score=0;lives=3;level=1;speed=350;spawn=1.1;powerSpawn=4.5;starSpawn=3;mult=1;multTime=0;boss=null;obs.length=items.length=shots.length=enemy.length=parts.length=0;Object.assign(p,{x:125,y:G-72,vy:0,ground:true,inv:0,power:'none',ammo:0,cool:0});ui.overlay.classList.remove('visible');$('pauseButton').textContent='Pause';hud();beep(540)}
-  function end(win=false){state='over';high=Math.max(high,Math.floor(score));try{localStorage.setItem('dinoCatDashHighScore',high)}catch(e){}ui.title.textContent=win?'Sir Whiskers Defeated!':'Game Over';ui.text.textContent=win?`Final score: ${Math.floor(score).toLocaleString()}. The tabby boss has surrendered his yarn.`:`Score: ${Math.floor(score).toLocaleString()}. Watch out for sleeping cats.`;ui.start.textContent='Play Again';ui.overlay.classList.add('visible');hud();beep(win?880:120,.18)}
-  function jump(){if(state==='play'&&p.ground){p.vy=-760;p.ground=false;beep(520)}}
-  function shoot(){if(state!=='play'||p.power==='none'||p.ammo<1||p.cool>0)return;p.ammo--;p.cool=p.power==='laser'?.12:.25;shots.push({x:p.x+p.w-5,y:p.y+28,w:p.power==='laser'?42:24,h:p.power==='laser'?8:18,v:p.power==='laser'?1050:700,type:p.power});if(!p.ammo)p.power='none';beep(p.power==='laser'?780:190);hud()}
-  function damage(){if(p.inv>0)return;lives--;p.inv=1.6;mult=1;parts.push(...Array.from({length:18},()=>({x:p.x+35,y:p.y+30,vx:rnd(-230,230),vy:rnd(-260,20),life:.6})));beep(100,.2);if(lives<=0)end();hud()}
-  function addObstacle(){const a=['cat','tree','duck','pizza','roll'],type=a[Math.floor(Math.random()*a.length)],d={cat:[92,38],tree:[58,112],duck:[50,48],pizza:[52,48],roll:[48,56]}[type];obs.push({type,x:W+40,y:G-d[1],w:d[0],h:d[1]})}
-  function addItem(kind){items.push({kind,x:W+40,y:rnd(230,350),w:45,h:45,b:0})}
-  function bossStart(){boss={x:W+80,y:180,w:190,h:220,hp:24,max:24,cool:1.4};obs.length=items.length=0;p.power='laser';p.ammo=Math.max(p.ammo,40);hud()}
-  function update(dt){if(state!=='play')return;t+=dt;score+=dt*12*mult;level=Math.min(3,1+Math.floor(score/1200));speed=350+level*45+Math.min(170,score/30);p.inv=Math.max(0,p.inv-dt);p.cool=Math.max(0,p.cool-dt);multTime-=dt;if(multTime<=0&&mult>1){mult=1;hud()}
-    p.vy+=1900*dt;p.y+=p.vy*dt;if(p.y>=G-p.h){p.y=G-p.h;p.vy=0;p.ground=true}
-    if(!boss&&score>=3600)bossStart();
-    if(!boss){spawn-=dt;powerSpawn-=dt;starSpawn-=dt;if(spawn<=0){addObstacle();spawn=rnd(.85,1.55)-Math.min(.28,score/12000)}if(powerSpawn<=0){addItem(Math.random()<.5?'flame':'laser');powerSpawn=rnd(7,11)}if(starSpawn<=0){addItem('star');starSpawn=rnd(4,7)}}
-    for(const o of obs)o.x-=speed*dt;for(const i of items){i.x-=speed*.82*dt;i.b+=dt*5;i.y+=Math.sin(i.b)*.35}for(const s of shots)s.x+=s.v*dt;
-    if(boss){boss.x+=(680-boss.x)*dt*1.4;boss.y=175+Math.sin(t*1.7)*65;boss.cool-=dt;if(boss.cool<=0){boss.cool=rnd(.7,1.2);enemy.push({x:boss.x+20,y:boss.y+130,w:34,h:34,vx:rnd(-620,-480),vy:rnd(-120,120),type:Math.random()<.5?'yarn':'fish'})}}
-    for(const e of enemy){e.x+=e.vx*dt;e.y+=e.vy*dt;e.vy+=180*dt}
-    for(let i=obs.length-1;i>=0;i--){const o=obs[i];if(hit(p,o)){damage();obs.splice(i,1)}else if(o.x+o.w<0)obs.splice(i,1)}
-    for(let i=items.length-1;i>=0;i--){const a=items[i];if(hit(p,a)){if(a.kind==='star'){mult=Math.min(8,mult*2);multTime=8;score+=150*mult;beep(900)}else{p.power=a.kind;p.ammo=a.kind==='laser'?22:14;beep(650)}items.splice(i,1);hud()}else if(a.x+a.w<0)items.splice(i,1)}
-    for(let i=shots.length-1;i>=0;i--){const s=shots[i];let used=false;for(let j=obs.length-1;j>=0;j--)if(hit(s,obs[j])){score+=80*mult;obs.splice(j,1);used=true;break}if(boss&&hit(s,boss)){boss.hp--;score+=50*mult;used=true;beep(240);if(boss.hp<=0){boss=null;score+=2000*mult;end(true);return}}if(used||s.x>W+80)shots.splice(i,1)}
-    for(let i=enemy.length-1;i>=0;i--){if(hit(p,enemy[i])){damage();enemy.splice(i,1)}else if(enemy[i].x<-60||enemy[i].y>H+60)enemy.splice(i,1)}
-    for(const q of parts){q.x+=q.vx*dt;q.y+=q.vy*dt;q.vy+=700*dt;q.life-=dt}for(let i=parts.length-1;i>=0;i--)if(parts[i].life<=0)parts.splice(i,1);hud()}
-  function bg(){const sky=level===1?'#8ed8f4':level===2?'#f6b56c':'#7969b8';x.fillStyle=sky;x.fillRect(0,0,W,H);x.fillStyle='rgba(255,255,255,.6)';for(let i=0;i<7;i++){const px=(i*190-(t*speed*.12)%190+W)%W;x.beginPath();x.arc(px,80+(i%3)*35,28,0,7);x.arc(px+30,80+(i%3)*35,22,0,7);x.fill()}x.fillStyle='#7bc96f';x.fillRect(0,G,W,H-G);x.fillStyle='#4d9b55';for(let i=0;i<W;i+=55)x.fillRect((i-(t*speed)%55),G+45,28,6)}
-  function drawPlayer(){x.save();if(p.inv>0&&Math.floor(p.inv*12)%2)x.globalAlpha=.25;x.translate(p.x,p.y);x.fillStyle='#55c96f';x.beginPath();x.ellipse(35,42,34,29,0,0,7);x.fill();x.fillRect(50,16,30,38);x.fillStyle='#fff';x.beginPath();x.arc(69,26,8,0,7);x.fill();x.fillStyle='#111';x.beginPath();x.arc(72,27,3,0,7);x.fill();x.fillStyle='#2e8344';x.beginPath();x.moveTo(8,42);x.lineTo(-28,25);x.lineTo(6,58);x.fill();x.fillStyle='#55c96f';x.fillRect(18,62,14,14);x.fillRect(49,62,14,14);x.restore()}
-  function drawThing(o){x.save();x.translate(o.x,o.y);if(o.type==='cat'){x.fillStyle='#c98c58';x.beginPath();x.ellipse(47,24,45,18,0,0,7);x.fill();x.beginPath();x.arc(73,18,20,0,7);x.fill();x.fillStyle='#49301f';x.fillText('Z',20,5);x.fillText('Z',5,-10)}else if(o.type==='tree'){x.fillStyle='#7b4f2b';x.fillRect(22,48,15,64);x.fillStyle='#268a48';x.beginPath();x.arc(29,34,34,0,7);x.fill()}else{x.font='42px system-ui';x.fillText(o.type==='duck'?'🦆':o.type==='pizza'?'🍕':'🧻',0,o.h-5)}x.restore()}
-  function draw(){bg();for(const o of obs)drawThing(o);for(const a of items){x.font='40px system-ui';x.fillText(a.kind==='star'?'⭐':a.kind==='flame'?'🔥':'🔫',a.x,a.y+38)}for(const s of shots){x.fillStyle=s.type==='laser'?'#63f6ff':'#ff7b23';x.fillRect(s.x,s.y,s.w,s.h)}for(const e of enemy){x.font='34px system-ui';x.fillText(e.type==='yarn'?'🧶':'🐟',e.x,e.y+32)}if(boss){x.font='150px system-ui';x.fillText('🐈',boss.x,boss.y+155);x.fillStyle='#222';x.fillRect(585,25,330,24);x.fillStyle='#ff6175';x.fillRect(590,30,320*(boss.hp/boss.max),14);x.fillStyle='#fff';x.font='bold 22px system-ui';x.fillText('SIR WHISKERS',610,22)}drawPlayer();x.fillStyle='#ffd84a';for(const q of parts)x.fillRect(q.x,q.y,5,5)}
-  function loop(ms){const dt=Math.min(.033,(ms-last)/1000||0);last=ms;update(dt);draw();requestAnimationFrame(loop)}
-  function pause(){if(state==='play'){state='pause';ui.title.textContent='Paused';ui.text.textContent='Press P or tap Resume to continue.';ui.start.textContent='Resume';ui.overlay.classList.add('visible');$('pauseButton').textContent='Resume'}else if(state==='pause'){state='play';ui.overlay.classList.remove('visible');$('pauseButton').textContent='Pause';last=performance.now()}}
-  ui.start.onclick=()=>state==='pause'?pause():reset();$('jumpButton').onpointerdown=e=>{e.preventDefault();jump()};$('shootButton').onpointerdown=e=>{e.preventDefault();shoot()};$('pauseButton').onclick=pause;$('soundButton').onclick=()=>{sound=!sound;$('soundButton').textContent='Sound: '+(sound?'On':'Off')};c.onpointerdown=e=>{e.preventDefault();jump()};addEventListener('keydown',e=>{if([' ','ArrowUp'].includes(e.key)){e.preventDefault();jump()}if(['f','F','x','X'].includes(e.key))shoot();if(['p','P'].includes(e.key))pause();if(['r','R'].includes(e.key))reset()});hud();draw();requestAnimationFrame(loop);
+  const files = ["./game-part-01.txt", "./game-part-02.txt", "./game-part-03.txt", "./game-part-04.txt", "./game-part-05.txt", "./game-part-06.txt", "./game-part-07.txt", "./game-part-08.txt"];
+  try {
+    const encoded = (await Promise.all(files.map(async file => {
+      const response = await fetch(file, { cache: 'no-store' });
+      if (!response.ok) throw new Error(`Unable to load ${file}`);
+      return response.text();
+    }))).join('').replace(/\s+/g, '');
+    const binary = atob(encoded);
+    const bytes = Uint8Array.from(binary, char => char.charCodeAt(0));
+    const source = new TextDecoder().decode(bytes);
+    (0, eval)(source);
+  } catch (error) {
+    console.error(error);
+    const title = document.getElementById('overlayTitle');
+    const text = document.getElementById('overlayText');
+    if (title) title.textContent = 'Game failed to load';
+    if (text) text.textContent = 'Refresh this page while connected to the internet.';
+  }
 })();
