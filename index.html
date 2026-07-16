@@ -8,16 +8,17 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Dino Cat Dash">
   <meta name="description" content="Run, jump, collect powers, and defeat Sir Whiskers in Dino Cat Dash.">
-  <link rel="manifest" href="manifest.webmanifest?v=2.2.0">
-  <link rel="stylesheet" href="style.css?v=2.2.0">
-  <link rel="stylesheet" href="ipad-layout.css?v=2.2.0">
-  <link rel="stylesheet" href="menu-customizer.css?v=2.2.0">
-  <link rel="stylesheet" href="cutscenes.css?v=2.2.0">
-  <title>Dino Cat Dash: Rex's Big Adventure — Version 2.2</title>
+  <link rel="manifest" href="manifest.webmanifest?v=2.2.1">
+  <link rel="stylesheet" href="style.css?v=2.2.1">
+  <link rel="stylesheet" href="ipad-layout.css?v=2.2.1">
+  <link rel="stylesheet" href="menu-customizer.css?v=2.2.1">
+  <link rel="stylesheet" href="cutscenes.css?v=2.2.1">
+  <link rel="stylesheet" href="viewport-lock.css?v=2.2.1">
+  <title>Dino Cat Dash: Rex's Big Adventure — Version 2.2.1</title>
 </head>
 <body>
 <main class="shell">
-  <div class="release-banner" role="status"><strong>VERSION 2.2</strong><span>PROGRESSIVE SPEED • POWER GUIDE • BOSS CHALLENGE CARD</span></div>
+  <div class="release-banner" role="status"><strong>VERSION 2.2.1</strong><span>STATIC IPAD GAMEPLAY • FIXED CONTROLS • NO SCREEN SLIP</span></div>
   <header class="topbar">
     <div><p class="eyebrow">Rex's Big Adventure</p><h1>Dino Cat Dash</h1></div>
     <div class="toggles"><button id="musicBtn" class="muted">Music: On</button><button id="soundBtn" class="muted">SFX: On</button></div>
@@ -65,17 +66,18 @@
   </section>
   <section class="help"><strong>Controls:</strong> Space or ↑ jump · F/X shoot · R Mega Roar · P pause. The pace starts easy and increases throughout each run.</section>
 </main>
-<script src="js/config.js?v=2.2.0"></script>
-<script src="js/audio.js?v=2.2.0"></script>
-<script src="js/render.js?v=2.2.0"></script>
-<script src="js/boss-visual-fix.js?v=2.2.0"></script>
-<script src="js/mechanics.js?v=2.2.0"></script>
-<script src="js/main.js?v=2.2.0"></script>
-<script src="js/menu-customizer.js?v=2.2.0"></script>
-<script src="js/adventure-upgrade.js?v=2.2.0"></script>
+<script src="js/config.js?v=2.2.1"></script>
+<script src="js/audio.js?v=2.2.1"></script>
+<script src="js/render.js?v=2.2.1"></script>
+<script src="js/boss-visual-fix.js?v=2.2.1"></script>
+<script src="js/mechanics.js?v=2.2.1"></script>
+<script src="js/main.js?v=2.2.1"></script>
+<script src="js/menu-customizer.js?v=2.2.1"></script>
+<script src="js/adventure-upgrade.js?v=2.2.1"></script>
+<script src="js/viewport-lock.js?v=2.2.1"></script>
 <script>
 (()=>{
-  const BUILD='2.2.0-20260716';
+  const BUILD='2.2.1-20260716';
   if(!('serviceWorker' in navigator)||location.protocol!=='https:')return;
   let reloading=false;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
