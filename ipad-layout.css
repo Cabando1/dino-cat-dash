@@ -1,0 +1,51 @@
+/* iPad and touchscreen layout corrections.
+   Controls remain in normal document flow so they never cover the game canvas. */
+@media (hover: none) and (pointer: coarse) {
+  .controls {
+    position: static;
+    bottom: auto;
+    z-index: auto;
+    margin-top: 10px;
+    padding: 0 0 max(10px, env(safe-area-inset-bottom));
+  }
+}
+
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) {
+  html,
+  body {
+    min-height: 100%;
+    overflow-y: auto;
+  }
+
+  .shell {
+    padding-bottom: max(14px, env(safe-area-inset-bottom));
+  }
+
+  .stage {
+    margin-bottom: 0;
+  }
+
+  .controls {
+    position: static;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 2fr) minmax(110px, .72fr) minmax(90px, .58fr);
+    gap: 9px;
+    margin-top: 8px;
+    padding: 0 0 max(12px, env(safe-area-inset-bottom));
+    background: transparent;
+  }
+
+  .controls button {
+    min-width: 0;
+  }
+}
+
+@media (orientation: landscape) and (hover: none) and (pointer: coarse) and (max-height: 760px) {
+  .controls {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #roarBtn,
+  #pauseBtn {
+    min-height: 46px;
+  }
+}

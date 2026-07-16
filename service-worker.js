@@ -1,14 +1,15 @@
-const CACHE='dino-cat-dash-v7-2.1.0';
-const FALLBACK='./index.html?v=2.1.0';
+const CACHE='dino-cat-dash-v8-2.1.1';
+const FALLBACK='./index.html?v=2.1.1';
 const CORE=[
   FALLBACK,
-  './style.css?v=2.1.0',
-  './manifest.webmanifest?v=2.1.0',
-  './js/config.js?v=2.1.0',
-  './js/audio.js?v=2.1.0',
-  './js/render.js?v=2.1.0',
-  './js/mechanics.js?v=2.1.0',
-  './js/main.js?v=2.1.0'
+  './style.css?v=2.1.1',
+  './ipad-layout.css?v=2.1.1',
+  './manifest.webmanifest?v=2.1.1',
+  './js/config.js?v=2.1.1',
+  './js/audio.js?v=2.1.1',
+  './js/render.js?v=2.1.1',
+  './js/mechanics.js?v=2.1.1',
+  './js/main.js?v=2.1.1'
 ];
 
 self.addEventListener('install',event=>{
