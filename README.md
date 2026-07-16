@@ -1,50 +1,50 @@
-# Dino Cat Dash
+# Dino Cat Dash: Rex's Big Adventure
 
-Dino Cat Dash is a silly, touch-friendly HTML5 endless runner. Guide a dinosaur through sleeping cats, trees, rubber ducks, pizza, and other hazards, collect weapon power-ups and bonuses, and battle the giant tabby boss, Sir Whiskers.
+A touch-friendly HTML5 runner built for desktop browsers and iPad. Guide Rex through five silly worlds, collect super powers, complete missions, unlock achievements, and defeat the three-phase tabby boss Sir Whiskers.
 
-## Play online
-
-After GitHub Pages finishes deploying, the game will be available at:
+## Play
 
 **https://cabando1.github.io/dino-cat-dash/**
 
-For the best iPad experience, open the link in Safari, rotate the iPad to landscape, and use **Share → Add to Home Screen**.
+For the best iPad experience, open the game in Safari, rotate to landscape, and use **Share → Add to Home Screen**.
 
 ## Controls
 
 | Action | Keyboard | Touchscreen |
 |---|---|---|
-| Jump | Space or Up Arrow | Jump button |
+| Jump | Space or Up Arrow | Jump button or game screen |
 | Shoot | F or X | Shoot button |
-| Pause | P | Pause button |
-| Restart | R | Restart after game over |
+| Mega Roar | R | Mega Roar button |
+| Pause | P or Escape | Pause button |
 
-## Features
+The crouch/duck mechanic is intentionally reserved for a sequel.
 
-- Responsive desktop and iPad gameplay
-- Sleeping cats, trees, rubber ducks, pizza, and toilet-paper hazards
-- Flame Breath power-up with bouncing fireballs
-- Laser Gun power-up
-- Bonus stars and score multipliers
-- Three lives with temporary invincibility after damage
-- Increasing speed and multiple visual stages
-- Tabby-cat boss battle against Sir Whiskers
-- Browser-saved high score
-- Synthesized sound effects
-- Installable web-app support and offline caching
+## Version 2 features
 
-## Run locally
+- Fully redrawn and procedurally animated T-Rex named Rex
+- Run, jump, hurt, flame, laser, roar, idle, and victory animation states
+- Three selectable Rex color schemes
+- Custom canvas artwork with no external game assets
+- Five themed worlds
+- Flame Breath and Laser Blaster weapons
+- Shield Egg, Super Sneakers, Star Magnet, Time Freeze, Golden Rex, Mega Roar, Extra Life, and bonus stars
+- Clean-jump, close-call, destruction, combo, mission, world, and boss scoring bonuses
+- A deterministic daily mission, daily best score, and 10 persistent achievements
+- Separate synthesized music and sound-effect controls
+- Three-phase Sir Whiskers boss battle
+- Unlockable world selection and a detailed results screen with run statistics
+- Offline caching and installable web-app support
 
-Open `index.html` in a modern browser. Some install and offline features require HTTPS and therefore work best through GitHub Pages.
+## Project structure
 
-## Project files
-
-- `index.html` — page structure and game interface
-- `style.css` — responsive styling and touch controls
-- `game.js` — game loop, graphics, collisions, scoring, weapons, and boss logic
-- `manifest.webmanifest` — installable web-app settings
-- `service-worker.js` — offline asset caching
-- `.github/workflows/pages.yml` — automatic GitHub Pages deployment
+- `index.html` — interface and controls
+- `style.css` — responsive desktop/iPad layout
+- `js/config.js` — game data and persistent state
+- `js/audio.js` — synthesized music and sound effects
+- `js/render.js` — procedural art and animation
+- `js/mechanics.js` — gameplay, scoring, powers, missions, achievements, and boss logic
+- `js/main.js` — input binding and animation loop
+- `service-worker.js` — offline caching
 
 ## License
 
