@@ -1,0 +1,11 @@
+{
+  "name": "Dino Cat Dash",
+  "short_name": "Dino Dash",
+  "description": "A silly dinosaur runner with cats, fireballs, lasers, bonuses, and a tabby cat boss.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#0e1221",
+  "theme_color": "#0e1221"
+}
