@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0e1221" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Dino Cat Dash" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <title>Dino Cat Dash</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <header>
+      <div>
+        <p class="eyebrow">Endless runner</p>
+        <h1>Dino Cat Dash</h1>
+      </div>
+      <button id="soundButton" class="secondary" type="button" aria-label="Toggle sound">Sound: On</button>
+    </header>
+
+    <section class="hud" aria-label="Game status">
+      <div><span>Score</span><strong id="score">0</strong></div>
+      <div><span>High Score</span><strong id="highScore">0</strong></div>
+      <div><span>Lives</span><strong id="lives">❤❤❤</strong></div>
+      <div><span>Level</span><strong id="level">1</strong></div>
+      <div><span>Power</span><strong id="power">None</strong></div>
+      <div><span>Bonus</span><strong id="bonus">x1</strong></div>
+    </section>
+
+    <div class="canvas-wrap">
+      <canvas id="gameCanvas" width="960" height="540" aria-label="Dino Cat Dash game"></canvas>
+      <div id="overlay" class="overlay visible">
+        <div class="panel">
+          <h2 id="overlayTitle">Dino Cat Dash</h2>
+          <p id="overlayText">Jump over sleeping cats, trees, rubber ducks, and other ridiculous hazards. Collect power-ups and defeat the giant tabby boss.</p>
+          <button id="startButton" type="button">Start Game</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="controls" aria-label="Controls">
+      <button id="jumpButton" type="button">Jump</button>
+      <button id="shootButton" type="button">Shoot</button>
+      <button id="pauseButton" class="secondary" type="button">Pause</button>
+    </section>
+
+    <section class="instructions">
+      <h2>Controls</h2>
+      <p><kbd>Space</kbd> or <kbd>↑</kbd> jump · <kbd>F</kbd> or <kbd>X</kbd> shoot · <kbd>P</kbd> pause · <kbd>R</kbd> restart</p>
+      <p>Flame Breath fires bouncing fireballs. The Laser Gun fires fast beams. Bonus stars increase your score multiplier.</p>
+    </section>
+  </main>
+
+  <script src="game-loader.js"></script>
+  <script>
+    if ('serviceWorker' in navigator && location.protocol === 'https:') {
+      window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(() => {}));
+    }
+  </script>
+</body>
+</html>
