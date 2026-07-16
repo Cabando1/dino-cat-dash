@@ -1,5 +1,59 @@
-const CACHE='dino-cat-dash-v6';
-const ASSETS=['./','./index.html','./style.css','./manifest.webmanifest','./js/config.js','./js/audio.js','./js/render.js','./js/mechanics.js','./js/main.js'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
-self.addEventListener('fetch',event=>{if(event.request.method!=='GET')return;event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(event.request,copy));return response}).catch(()=>caches.match('./index.html'))))});
+const CACHE='dino-cat-dash-v7-2.1.0';
+const FALLBACK='./index.html?v=2.1.0';
+const CORE=[
+  FALLBACK,
+  './style.css?v=2.1.0',
+  './manifest.webmanifest?v=2.1.0',
+  './js/config.js?v=2.1.0',
+  './js/audio.js?v=2.1.0',
+  './js/render.js?v=2.1.0',
+  './js/mechanics.js?v=2.1.0',
+  './js/main.js?v=2.1.0'
+];
+
+self.addEventListener('install',event=>{
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting()));
+});
+
+self.addEventListener('message',event=>{
+  if(event.data&&event.data.type==='SKIP_WAITING')self.skipWaiting();
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil(
+    caches.keys()
+      .then(keys=>Promise.all(keys.filter(key=>key.startsWith('dino-cat-dash')&&key!==CACHE).map(key=>caches.delete(key))))
+      .then(()=>self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch',event=>{
+  if(event.request.method!=='GET')return;
+  const requestUrl=new URL(event.request.url);
+  if(requestUrl.origin!==self.location.origin)return;
+
+  if(event.request.mode==='navigate'){
+    event.respondWith(
+      fetch(event.request,{cache:'no-store'})
+        .then(response=>{
+          const copy=response.clone();
+          caches.open(CACHE).then(cache=>cache.put(FALLBACK,copy));
+          return response;
+        })
+        .catch(()=>caches.match(FALLBACK))
+    );
+    return;
+  }
+
+  event.respondWith(
+    fetch(event.request,{cache:'no-store'})
+      .then(response=>{
+        if(response&&response.ok){
+          const copy=response.clone();
+          caches.open(CACHE).then(cache=>cache.put(event.request,copy));
+        }
+        return response;
+      })
+      .catch(()=>caches.match(event.request).then(hit=>hit||caches.match(event.request,{ignoreSearch:true})))
+  );
+});

@@ -8,12 +8,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Dino Cat Dash">
   <meta name="description" content="Run, jump, collect powers, and defeat Sir Whiskers in Dino Cat Dash.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="style.css">
-  <title>Dino Cat Dash: Rex's Big Adventure</title>
+  <link rel="manifest" href="manifest.webmanifest?v=2.1.0">
+  <link rel="stylesheet" href="style.css?v=2.1.0">
+  <title>Dino Cat Dash: Rex's Big Adventure — Version 2.1</title>
 </head>
 <body>
 <main class="shell">
+  <div class="release-banner" role="status"><strong>VERSION 2.1</strong><span>NEW REX • 5 WORLDS • MEGA ROAR • 3-PHASE BOSS</span></div>
   <header class="topbar">
     <div><p class="eyebrow">Rex's Big Adventure</p><h1>Dino Cat Dash</h1></div>
     <div class="toggles"><button id="musicBtn" class="muted">Music: On</button><button id="soundBtn" class="muted">SFX: On</button></div>
@@ -61,11 +62,29 @@
   </section>
   <section class="help"><strong>Controls:</strong> Space or ↑ jump · F/X shoot · R Mega Roar · P pause. No duck control in this version.</section>
 </main>
-<script src="js/config.js"></script>
-<script src="js/audio.js"></script>
-<script src="js/render.js"></script>
-<script src="js/mechanics.js"></script>
-<script src="js/main.js"></script>
-<script>if('serviceWorker'in navigator&&location.protocol==='https:')addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));</script>
+<script src="js/config.js?v=2.1.0"></script>
+<script src="js/audio.js?v=2.1.0"></script>
+<script src="js/render.js?v=2.1.0"></script>
+<script src="js/mechanics.js?v=2.1.0"></script>
+<script src="js/main.js?v=2.1.0"></script>
+<script>
+(()=>{
+  const BUILD='2.1.0-20260716';
+  if(!('serviceWorker' in navigator)||location.protocol!=='https:')return;
+  let reloading=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(reloading)return;
+    reloading=true;
+    location.reload();
+  });
+  addEventListener('load',async()=>{
+    try{
+      const registration=await navigator.serviceWorker.register(`./service-worker.js?v=${BUILD}`,{updateViaCache:'none'});
+      await registration.update();
+      if(registration.waiting)registration.waiting.postMessage({type:'SKIP_WAITING'});
+    }catch(error){console.warn('Service worker update failed',error)}
+  });
+})();
+</script>
 </body>
 </html>
