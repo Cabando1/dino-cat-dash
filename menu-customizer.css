@@ -1,0 +1,105 @@
+.rex-preview-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 1.15fr) minmax(180px, .85fr);
+  align-items: center;
+  gap: 14px;
+  margin: 12px 0;
+  padding: 10px 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.025));
+  text-align: left;
+}
+.rex-preview-card canvas {
+  display: block;
+  width: 100%;
+  max-height: 142px;
+  border-radius: 12px;
+}
+.rex-preview-copy strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.08rem;
+}
+.rex-preview-copy span {
+  display: block;
+  color: var(--muted);
+  font-size: .86rem;
+  line-height: 1.4;
+}
+.rex-preview-copy em {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.1);
+  color: #fff;
+  font-size: .72rem;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.skin-picker .skin {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.skin-swatch {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  border: 2px solid rgba(255,255,255,.65);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(0,0,0,.18);
+}
+.setup-hint {
+  margin: 8px 0 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(121,240,196,.1);
+  border: 1px solid rgba(121,240,196,.24);
+  color: #dffdf1;
+  font-size: .82rem;
+  line-height: 1.35;
+}
+.skin-badge {
+  position: absolute;
+  z-index: 3;
+  top: 14px;
+  left: 14px;
+  display: none;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  background: rgba(10,17,32,.78);
+  color: #fff;
+  font-size: .73rem;
+  font-weight: 950;
+  letter-spacing: .04em;
+  pointer-events: none;
+  backdrop-filter: blur(5px);
+}
+.skin-badge.visible { display: flex; }
+.skin-badge i {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.65);
+}
+@media (max-width: 620px) {
+  .rex-preview-card { grid-template-columns: 1fr; text-align: center; }
+  .rex-preview-card canvas { max-height: 112px; }
+}
+@media (orientation: landscape) and (max-height: 760px) {
+  .rex-preview-card {
+    grid-template-columns: 190px 1fr;
+    margin: 5px 0;
+    padding: 6px 10px;
+  }
+  .rex-preview-card canvas { max-height: 82px; }
+  .rex-preview-copy span { font-size: .75rem; }
+  .rex-preview-copy em { margin-top: 4px; }
+}
