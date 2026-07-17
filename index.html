@@ -7,21 +7,22 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Dino Cat Dash">
-  <meta name="description" content="Run, jump, collect powers, train, and defeat Sir Whiskers in Dino Cat Dash.">
-  <link rel="manifest" href="manifest.webmanifest?v=3.0.0">
-  <link rel="stylesheet" href="style.css?v=3.0.0">
-  <link rel="stylesheet" href="ipad-layout.css?v=3.0.0">
-  <link rel="stylesheet" href="menu-customizer.css?v=3.0.0">
-  <link rel="stylesheet" href="cutscenes.css?v=3.0.0">
-  <link rel="stylesheet" href="viewport-lock.css?v=3.0.0">
-  <link rel="stylesheet" href="cutscene-reliability.css?v=3.0.0">
-  <link rel="stylesheet" href="cutscene-detail-upgrade.css?v=3.0.0">
-  <link rel="stylesheet" href="gameplay-v3.css?v=3.0.0">
-  <title>Dino Cat Dash: Rex's Big Adventure — Version 3</title>
+  <meta name="description" content="Run, jump, collect powers, and defeat Sir Whiskers in Dino Cat Dash.">
+  <link rel="manifest" href="manifest.webmanifest?v=3.1.0">
+  <link rel="stylesheet" href="style.css?v=3.1.0">
+  <link rel="stylesheet" href="ipad-layout.css?v=3.1.0">
+  <link rel="stylesheet" href="menu-customizer.css?v=3.1.0">
+  <link rel="stylesheet" href="cutscenes.css?v=3.1.0">
+  <link rel="stylesheet" href="viewport-lock.css?v=3.1.0">
+  <link rel="stylesheet" href="cutscene-reliability.css?v=3.1.0">
+  <link rel="stylesheet" href="cutscene-detail-upgrade.css?v=3.1.0">
+  <link rel="stylesheet" href="gameplay-v3.css?v=3.1.0">
+  <link rel="stylesheet" href="classic-mobile-cleanup.css?v=3.1.0">
+  <title>Dino Cat Dash: Rex's Big Adventure — Version 3.1</title>
 </head>
 <body>
 <main class="shell">
-  <div class="release-banner" role="status"><strong>VERSION 3</strong><span>EASIER START • PERMANENT GUIDES • TRAINING • CHECKPOINTS • LONGER BOSS BUILDUP</span></div>
+  <div class="release-banner" role="status"><strong>VERSION 3.1</strong><span>CLASSIC VIEW • INSTRUCTIONS PAGE • 2-MINUTE BOSS • RELIABLE BOSS START</span></div>
   <header class="topbar">
     <div><p class="eyebrow">Rex's Big Adventure</p><h1>Dino Cat Dash</h1></div>
     <div class="toggles"><button id="musicBtn" class="muted">Music: On</button><button id="soundBtn" class="muted">SFX: On</button></div>
@@ -67,26 +68,28 @@
   <section class="controls">
     <button id="jumpBtn">Jump</button><button id="shootBtn">Shoot</button><button id="roarBtn" class="special">Mega Roar</button><button id="pauseBtn" class="muted">Pause</button>
   </section>
-  <section class="help"><strong>Controls:</strong> Tap or hold Jump for different heights · Shoot uses Flame or Laser · Mega Roar clears hazards · Pause includes guides and restart options.</section>
+  <section class="help"><strong>Controls:</strong> Tap or hold Jump · Shoot when a weapon is active · Mega Roar clears hazards · Open Instructions from the menu or pause screen.</section>
 </main>
-<script src="js/config.js?v=3.0.0"></script>
-<script src="js/audio.js?v=3.0.0"></script>
-<script src="js/render.js?v=3.0.0"></script>
-<script src="js/boss-visual-fix.js?v=3.0.0"></script>
-<script src="js/mechanics.js?v=3.0.0"></script>
-<script src="js/main.js?v=3.0.0"></script>
-<script src="js/menu-customizer.js?v=3.0.0"></script>
-<script src="js/adventure-upgrade.js?v=3.0.0"></script>
-<script src="js/gameplay-tuning.js?v=3.0.0"></script>
-<script src="js/viewport-lock.js?v=3.0.0"></script>
-<script src="js/cutscene-reliability.js?v=3.0.0"></script>
-<script src="js/jump-tuning.js?v=3.0.0"></script>
-<script src="js/cutscene-detail-upgrade.js?v=3.0.0"></script>
-<script src="js/gameplay-v3.js?v=3.0.0"></script>
-<script src="js/gameplay-v3-guard.js?v=3.0.0"></script>
+<script src="js/config.js?v=3.1.0"></script>
+<script src="js/classic-preload.js?v=3.1.0"></script>
+<script src="js/audio.js?v=3.1.0"></script>
+<script src="js/render.js?v=3.1.0"></script>
+<script src="js/boss-visual-fix.js?v=3.1.0"></script>
+<script src="js/mechanics.js?v=3.1.0"></script>
+<script src="js/main.js?v=3.1.0"></script>
+<script src="js/menu-customizer.js?v=3.1.0"></script>
+<script src="js/adventure-upgrade.js?v=3.1.0"></script>
+<script src="js/gameplay-tuning.js?v=3.1.0"></script>
+<script src="js/viewport-lock.js?v=3.1.0"></script>
+<script src="js/cutscene-reliability.js?v=3.1.0"></script>
+<script src="js/jump-tuning.js?v=3.1.0"></script>
+<script src="js/cutscene-detail-upgrade.js?v=3.1.0"></script>
+<script src="js/gameplay-v3.js?v=3.1.0"></script>
+<script src="js/gameplay-v3-guard.js?v=3.1.0"></script>
+<script src="js/classic-mobile-cleanup.js?v=3.1.0"></script>
 <script>
 (()=>{
-  const BUILD='3.0.0-20260717';
+  const BUILD='3.1.0-20260717';
   if(!('serviceWorker' in navigator)||location.protocol!=='https:')return;
   let reloading=false;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{
