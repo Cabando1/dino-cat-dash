@@ -3,7 +3,10 @@ const fs=require('fs');
 
 const source=fs.readFileSync('js/gameplay-v3.js','utf8');
 const guard=fs.readFileSync('js/gameplay-v3-guard.js','utf8');
+const cleanup=fs.readFileSync('js/classic-mobile-cleanup.js','utf8');
+const preload=fs.readFileSync('js/classic-preload.js','utf8');
 const css=fs.readFileSync('gameplay-v3.css','utf8');
+const classicCss=fs.readFileSync('classic-mobile-cleanup.css','utf8');
 const index=fs.readFileSync('index.html','utf8');
 const worker=fs.readFileSync('service-worker.js','utf8');
 
@@ -11,54 +14,55 @@ const requiredFeatures=[
   "easy:{label:'Easy'",
   "normal:{label:'Normal'",
   "wild:{label:'Wild'",
-  'bossMin:270',
-  'castleMin:70',
-  'Power Guide',
-  'Obstacle Guide',
   'Training',
   'Second Chance',
   'Tree Practice',
   'Power Lab',
   'Boss Practice',
-  'WORLD COMPLETE',
-  'WORLD OBJECTIVE',
   'Recovery shield',
-  'First attempt help',
   'Five stars charged a Mega Roar',
-  'hold Jump for maximum height',
-  'Boss ammunition is unlimited',
-  'Castle • ${wait}s to boss',
   'D.hit=(a,b)=>',
   'jumpBuffer=.13',
-  'jumpHold<.19',
-  'v3-boss-hud',
-  'v3-warning'
+  'jumpHold<.19'
 ];
-for(const phrase of requiredFeatures)assert.ok(source.includes(phrase),`Missing Version 3 feature contract: ${phrase}`);
+for(const phrase of requiredFeatures)assert.ok(source.includes(phrase),`Missing Version 3 gameplay feature: ${phrase}`);
 
-const powers=['Flame Breath','Laser Blaster','Shield Egg','Super Sneakers','Star Magnet','Time Freeze','Golden Rex','Mega Roar','Extra Life','Bonus Star'];
-for(const name of powers)assert.ok(source.includes(name),`Power Guide must include ${name}`);
+for(const phrase of[
+  'TOTAL_BOSS_SECONDS=120',
+  'CASTLE_SECONDS=30',
+  'CASTLE_START_SECONDS=90',
+  "button.textContent='Instructions'",
+  "x:705,y:165,w:205,h:225",
+  'P.ammo=9999',
+  'S.score=Math.max(S.score,BOSS_SCORE_FLOOR)',
+  'Dino Cat Dash gameplay recovery',
+  'obstacleNames.has(String(text))',
+  "rgba(13,20,28,0.72)"
+])assert.ok(cleanup.includes(phrase),`Missing Version 3.1 cleanup feature: ${phrase}`);
 
-const obstacles=['Sleeping Cat','Tall Tree','Rubber Duck','Pizza Slice','Tree Stump','Yarn Ball','Toast','Stand Mixer','Rolling Pin','Robot Vacuum','Floor Lamp','Armored Cat','Castle Banner','Crown Pile'];
-for(const name of obstacles)assert.ok(source.includes(name),`Obstacle Guide must include ${name}`);
+for(const key of['dinoCatDashPowerGuideSeen','dinoCatDashPowerGuideSeenV223','dinoCatDashPowerGuideSeenV3'])assert.ok(preload.includes(key),`Automatic guide key must be disabled: ${key}`);
 
-for(const phrase of['!D.gameplayV3.bossGateMet()','S.score=13460','Power Lab choice','S.v3Practice===\'trees\'||S.v3Practice===\'powers\''])assert.ok(guard.includes(phrase),`Timing guard must include: ${phrase}`);
+assert.ok(classicCss.includes('#v3Warning,#v3Objective,#v3BossHud,#v3ModeBadge,#v3EndPanel,#v3Modal'),'Gameplay text overlays must be hidden');
+assert.ok(classicCss.includes('.classic-page'),'A mobile Instructions page must be styled');
+assert.ok(classicCss.includes('.classic-boss-intro'),'A simple boss image card must be styled');
 
-assert.ok(index.includes('VERSION 3'),'Index must display the Version 3 banner');
-assert.ok(index.includes('gameplay-v3.css?v=3.0.0'),'Index must load Version 3 styles');
-assert.ok(index.includes('js/gameplay-v3.js?v=3.0.0'),'Index must load Version 3 gameplay');
-assert.ok(index.includes('js/gameplay-v3-guard.js?v=3.0.0'),'Index must load the Version 3 timing guard');
-assert.ok(worker.includes("dino-cat-dash-v16-3.0.0"),'Service worker must use the Version 3 cache');
-assert.ok(worker.includes("./js/gameplay-v3.js?v=3.0.0"),'Service worker must cache Version 3 gameplay');
-assert.ok(worker.includes("./js/gameplay-v3-guard.js?v=3.0.0"),'Service worker must cache the timing guard');
-assert.ok(worker.includes("./gameplay-v3.css?v=3.0.0"),'Service worker must cache Version 3 styles');
+assert.ok(index.includes('VERSION 3.1'),'Index must display the Version 3.1 banner');
+assert.ok(index.includes('classic-mobile-cleanup.css?v=3.1.0'),'Index must load classic mobile styles');
+assert.ok(index.includes('js/classic-preload.js?v=3.1.0'),'Index must load the tutorial preload');
+assert.ok(index.includes('js/classic-mobile-cleanup.js?v=3.1.0'),'Index must load classic cleanup last');
+assert.ok(worker.includes("dino-cat-dash-v17-3.1.0"),'Service worker must use the Version 3.1 cache');
+assert.ok(worker.includes("./js/classic-mobile-cleanup.js?v=3.1.0"),'Service worker must cache classic cleanup');
+assert.ok(worker.includes("./classic-mobile-cleanup.css?v=3.1.0"),'Service worker must cache classic styles');
 
-for(const selector of ['.v3-modal','.v3-warning','.v3-objective','.v3-boss-hud','.v3-menu-tools','.v3-practice-grid'])assert.ok(css.includes(selector),`Missing Version 3 style: ${selector}`);
+for(const selector of['.v3-modal','.v3-warning','.v3-objective','.v3-boss-hud','.v3-menu-tools','.v3-practice-grid'])assert.ok(css.includes(selector),`Version 3 base style remains available: ${selector}`);
 
-const gameplayPosition=index.indexOf('js/gameplay-v3.js?v=3.0.0');
-const guardPosition=index.indexOf('js/gameplay-v3-guard.js?v=3.0.0');
-const detailPosition=index.indexOf('js/cutscene-detail-upgrade.js?v=3.0.0');
-assert.ok(gameplayPosition>detailPosition,'Version 3 gameplay must load after earlier patch layers');
-assert.ok(guardPosition>gameplayPosition,'Version 3 timing guard must load after the gameplay layer');
+const preloadPosition=index.indexOf('js/classic-preload.js?v=3.1.0');
+const cutscenePosition=index.indexOf('js/cutscene-reliability.js?v=3.1.0');
+const gameplayPosition=index.indexOf('js/gameplay-v3.js?v=3.1.0');
+const guardPosition=index.indexOf('js/gameplay-v3-guard.js?v=3.1.0');
+const cleanupPosition=index.indexOf('js/classic-mobile-cleanup.js?v=3.1.0');
+assert.ok(preloadPosition<cutscenePosition,'Tutorial preload must run before cutscene systems');
+assert.ok(guardPosition>gameplayPosition,'Timing guard must load after Version 3 gameplay');
+assert.ok(cleanupPosition>guardPosition,'Classic cleanup and boss controller must load last');
 
-console.log('Version 3 contract passed: difficulty modes, permanent guides, fair movement, warnings, checkpoints, objectives, practice, guarded boss timing, assistance, second chance, and cache wiring are present.');
+console.log('Version 3.1 contract passed: classic visuals, one Instructions page, hidden obstacle labels, two-minute boss timing, visible boss creation, and fail-safe recovery are present.');
