@@ -1,0 +1,24 @@
+name: Validate Rex Jump Height
+on:
+  pull_request:
+    paths:
+      - 'js/jump-tuning.js'
+      - 'tests/jump-height.test.js'
+      - '.github/workflows/jump-height.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  jump-height:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Check jump script syntax
+        run: node --check js/jump-tuning.js
+      - name: Test tree clearance and jump behavior
+        run: node tests/jump-height.test.js
