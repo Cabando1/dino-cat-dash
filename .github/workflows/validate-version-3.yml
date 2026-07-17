@@ -1,0 +1,39 @@
+name: Validate Version 3
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'js/gameplay-v3.js'
+      - 'js/gameplay-v3-guard.js'
+      - 'gameplay-v3.css'
+      - 'index.html'
+      - 'service-worker.js'
+      - 'tests/version-3.test.js'
+      - '.github/workflows/validate-version-3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  version-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check Version 3 JavaScript syntax
+        run: |
+          node --check js/gameplay-v3.js
+          node --check js/gameplay-v3-guard.js
+          node --check tests/version-3.test.js
+          node --check service-worker.js
+
+      - name: Test Version 3 gameplay contract
+        run: node tests/version-3.test.js
