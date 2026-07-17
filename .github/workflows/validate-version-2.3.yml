@@ -1,0 +1,37 @@
+name: Validate Version 2.3
+
+on:
+  pull_request:
+    paths:
+      - 'js/gameplay-tuning.js'
+      - 'js/cutscene-detail-upgrade.js'
+      - 'cutscene-detail-upgrade.css'
+      - 'index.html'
+      - 'service-worker.js'
+      - 'tests/version-2.3.test.js'
+      - '.github/workflows/validate-version-2.3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  version-2-3:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check new JavaScript syntax
+        run: |
+          node --check js/gameplay-tuning.js
+          node --check js/cutscene-detail-upgrade.js
+          node --check tests/version-2.3.test.js
+
+      - name: Test five lives, delayed boss, and detailed guides
+        run: node tests/version-2.3.test.js
