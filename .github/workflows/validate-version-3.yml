@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'js/gameplay-v3.js'
+      - 'js/gameplay-v3-guard.js'
       - 'gameplay-v3.css'
       - 'index.html'
       - 'service-worker.js'
@@ -30,6 +31,7 @@ jobs:
       - name: Check Version 3 JavaScript syntax
         run: |
           node --check js/gameplay-v3.js
+          node --check js/gameplay-v3-guard.js
           node --check tests/version-3.test.js
           node --check service-worker.js
 
