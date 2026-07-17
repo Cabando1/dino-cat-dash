@@ -24,7 +24,8 @@ const CORE=[
   './js/cutscene-reliability.js?v=3.0.0',
   './js/jump-tuning.js?v=3.0.0',
   './js/cutscene-detail-upgrade.js?v=3.0.0',
-  './js/gameplay-v3.js?v=3.0.0'
+  './js/gameplay-v3.js?v=3.0.0',
+  './js/gameplay-v3-guard.js?v=3.0.0'
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('message',event=>{if(event.data&&event.data.type==='SKIP_WAITING')self.skipWaiting()});
