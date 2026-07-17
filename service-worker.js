@@ -1,24 +1,25 @@
-const CACHE='dino-cat-dash-v13-2.2.2';
-const FALLBACK='./index.html?v=2.2.2';
+const CACHE='dino-cat-dash-v14-2.2.3';
+const FALLBACK='./index.html?v=2.2.3';
 const CORE=[
   FALLBACK,
-  './style.css?v=2.2.2',
-  './ipad-layout.css?v=2.2.2',
-  './menu-customizer.css?v=2.2.2',
-  './cutscenes.css?v=2.2.2',
-  './viewport-lock.css?v=2.2.2',
-  './cutscene-reliability.css?v=2.2.2',
-  './manifest.webmanifest?v=2.2.2',
-  './js/config.js?v=2.2.2',
-  './js/audio.js?v=2.2.2',
-  './js/render.js?v=2.2.2',
-  './js/boss-visual-fix.js?v=2.2.2',
-  './js/mechanics.js?v=2.2.2',
-  './js/main.js?v=2.2.2',
-  './js/menu-customizer.js?v=2.2.2',
-  './js/adventure-upgrade.js?v=2.2.2',
-  './js/viewport-lock.js?v=2.2.2',
-  './js/cutscene-reliability.js?v=2.2.2'
+  './style.css?v=2.2.3',
+  './ipad-layout.css?v=2.2.3',
+  './menu-customizer.css?v=2.2.3',
+  './cutscenes.css?v=2.2.3',
+  './viewport-lock.css?v=2.2.3',
+  './cutscene-reliability.css?v=2.2.3',
+  './manifest.webmanifest?v=2.2.3',
+  './js/config.js?v=2.2.3',
+  './js/audio.js?v=2.2.3',
+  './js/render.js?v=2.2.3',
+  './js/boss-visual-fix.js?v=2.2.3',
+  './js/mechanics.js?v=2.2.3',
+  './js/main.js?v=2.2.3',
+  './js/menu-customizer.js?v=2.2.3',
+  './js/adventure-upgrade.js?v=2.2.3',
+  './js/viewport-lock.js?v=2.2.3',
+  './js/cutscene-reliability.js?v=2.2.3',
+  './js/jump-tuning.js?v=2.2.3'
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('message',event=>{if(event.data&&event.data.type==='SKIP_WAITING')self.skipWaiting()});
