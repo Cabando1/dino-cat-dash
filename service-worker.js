@@ -1,4 +1,4 @@
-const CACHE='dino-cat-dash-v18-3.2.0';
+const CACHE='dino-cat-dash-v19-3.2.1';
 const FALLBACK='./index.html?v=3.2.0';
 const CORE=[
   FALLBACK,
@@ -31,10 +31,16 @@ const CORE=[
   './js/gameplay-v3-guard.js?v=3.1.0',
   './js/classic-mobile-cleanup.js?v=3.1.0',
   './js/remix-entry.js?v=3.2.0',
-  './remix/index.html?v=0.1.0',
-  './remix/remix.css?v=0.1.0',
-  './remix/remix.js?v=0.1.0',
-  './remix/manifest.webmanifest?v=0.1.0'
+  './remix/index.html?v=0.3.0',
+  './remix/remix.css?v=0.3.0',
+  './remix/remix.js?v=0.3.0',
+  './remix/manifest.webmanifest?v=0.1.0',
+  './remix/assets/rex-jump.webp',
+  './remix/assets/sleeping-cat.webp',
+  './remix/assets/rubber-duck.webp',
+  './remix/assets/tree-stump.webp',
+  './remix/assets/pizza-slice.webp',
+  './remix/assets/tall-tree.webp'
 ];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('message',event=>{if(event.data&&event.data.type==='SKIP_WAITING')self.skipWaiting()});
@@ -44,7 +50,7 @@ self.addEventListener('fetch',event=>{
   const requestUrl=new URL(event.request.url);
   if(requestUrl.origin!==self.location.origin)return;
   if(event.request.mode==='navigate'){
-    const fallback=requestUrl.pathname.includes('/remix/')?'./remix/index.html?v=0.1.0':FALLBACK;
+    const fallback=requestUrl.pathname.includes('/remix/')?'./remix/index.html?v=0.3.0':FALLBACK;
     event.respondWith(fetch(event.request,{cache:'no-store'}).then(response=>{const copy=response.clone();caches.open(CACHE).then(cache=>cache.put(fallback,copy));return response}).catch(()=>caches.match(fallback)));
     return;
   }
