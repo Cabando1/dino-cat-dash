@@ -4,9 +4,14 @@ const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
 const W=960,H=540,G=438,GOAL=2500;
 const $=id=>document.getElementById(id);
 const ui={score:$('score'),high:$('high'),lives:$('lives'),power:$('power'),speed:$('speed'),progressText:$('progressText'),progressBar:$('progressBar'),toast:$('toast'),overlay:$('overlay'),title:$('overlayTitle'),message:$('overlayMessage'),start:$('startBtn'),jump:$('jumpBtn'),shoot:$('shootBtn'),roar:$('roarBtn'),pause:$('pauseBtn'),instructions:$('instructions'),sound:$('soundBtn')};
-const assetPaths={rexJump:'assets/rex-jump.b64',cat:'assets/sleeping-cat.b64',duck:'assets/rubber-duck.b64',stump:'assets/tree-stump.b64',pizza:'assets/pizza-slice.b64',tree:'assets/tall-tree.b64'};
+const assetPaths={rexJump:'assets/rex-jump.webp',cat:'assets/sleeping-cat.webp',duck:'assets/rubber-duck.webp',stump:'assets/tree-stump.webp',pizza:'assets/pizza-slice.webp',tree:'assets/tall-tree.webp'};
 const images={};let assetsReady=false;
-Promise.all(Object.entries(assetPaths).map(async([key,src])=>{try{const raw=await fetch(src,{cache:'no-store'}).then(r=>{if(!r.ok)throw new Error(src);return r.text()});await new Promise(resolve=>{const im=new Image();im.onload=()=>{images[key]=im;resolve()};im.onerror=resolve;im.src='data:image/webp;base64,'+raw.trim()})}catch{}})).then(()=>assetsReady=true);
+Promise.all(Object.entries(assetPaths).map(([key,src])=>new Promise(resolve=>{
+ const im=new Image();
+ im.onload=()=>{images[key]=im;resolve()};
+ im.onerror=()=>resolve();
+ im.src=src;
+}))).then(()=>assetsReady=true);
 const obstacleDefs={
  cat:{image:'cat',w:142,h:80,padX:19,padY:21,score:120},
  duck:{image:'duck',w:92,h:86,padX:16,padY:17,score:130},
@@ -50,7 +55,7 @@ function update(dt){if(state.toastTime>0){state.toastTime-=dt;if(state.toastTime
 function drawBackground(){const t=state.distance;const sky=ctx.createLinearGradient(0,0,0,G);sky.addColorStop(0,'#56c9ff');sky.addColorStop(1,'#dff8ff');ctx.fillStyle=sky;ctx.fillRect(0,0,W,G);ctx.fillStyle='rgba(255,255,255,.75)';drawCloud(120-(t*.025)%1150,92,1);drawCloud(610-(t*.018)%1200,120,.8);drawCloud(920-(t*.03)%1300,70,.65);ctx.fillStyle='#8bc66a';for(let x=-180-(t*.07)%260;x<W+260;x+=220){ctx.beginPath();ctx.arc(x,310,170,0,Math.PI*2);ctx.fill()}for(let x=-220-(t*.11)%350;x<W+350;x+=330)drawHouse(x,252);ctx.fillStyle='#6aa94e';ctx.fillRect(0,338,W,100);for(let x=-90-(t*.22)%92;x<W+92;x+=92)drawFence(x,330);ctx.fillStyle='#4c9d36';ctx.fillRect(0,402,W,36);ctx.fillStyle='#70ca42';for(let x=0;x<W;x+=24){ctx.beginPath();ctx.moveTo(x,G);ctx.lineTo(x+8,G-18);ctx.lineTo(x+16,G);ctx.fill()}ctx.fillStyle='#744225';ctx.fillRect(0,G,W,H-G);ctx.fillStyle='rgba(63,31,18,.32)';for(let x=-40-(t*.8)%120;x<W+120;x+=120){ctx.beginPath();ctx.ellipse(x,G+48,18,7,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(x+48,G+90,12,5,0,0,Math.PI*2);ctx.fill()}}
 function drawCloud(x,y,s){ctx.beginPath();ctx.arc(x,y,30*s,0,Math.PI*2);ctx.arc(x+32*s,y-12*s,40*s,0,Math.PI*2);ctx.arc(x+70*s,y,32*s,0,Math.PI*2);ctx.fill()}
 function drawHouse(x,y){ctx.fillStyle='#f2ddb3';ctx.fillRect(x,y,135,88);ctx.fillStyle='#b84b38';ctx.beginPath();ctx.moveTo(x-12,y);ctx.lineTo(x+67,y-48);ctx.lineTo(x+147,y);ctx.fill();ctx.fillStyle='#67b9dc';ctx.fillRect(x+22,y+30,28,35);ctx.fillRect(x+86,y+30,28,35)}
-function drawFence(x,y){ctx.fillStyle='#fff4cf';ctx.strokeStyle='#c7a875';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,70);ctx.lineTo(x+32,0);ctx.lineTo(x+64,70);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillRect(x,32,64,70);ctx.strokeRect(x,32,64,70)}
+function drawFence(x,y){ctx.fillStyle='#fff4cf';ctx.strokeStyle='#c7a875';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x,y+70);ctx.lineTo(x+32,y);ctx.lineTo(x+64,y+70);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillRect(x,y+32,64,70);ctx.strokeRect(x,y+32,64,70)}
 function drawImageFit(im,x,y,w,h,flip=false){if(!im)return;ctx.save();if(flip){ctx.translate(x+w,y);ctx.scale(-1,1);ctx.drawImage(im,0,0,w,h)}else ctx.drawImage(im,x,y,w,h);ctx.restore()}
 function drawPlayer(){const im=images.rexJump||images.rexRun;if(!im)return;ctx.save();if(player.inv>0&&Math.floor(player.inv*12)%2)ctx.globalAlpha=.35;const running=player.ground;const stride=Math.sin(player.anim*11);const bob=running?Math.abs(stride)*4:0;const tilt=running?-.055:Math.max(-.13,Math.min(.13,player.vy/4200));ctx.translate(player.x+player.w/2,player.y+player.h/2+bob+2);ctx.rotate(tilt);ctx.scale(running?1+stride*.012:1,running?.88-stride*.012:1);drawImageFit(im,-player.w/2,-player.h/2,player.w,player.h);ctx.restore();if(player.shield){const pulse=1+Math.sin(player.anim*8)*.025;ctx.strokeStyle='rgba(70,218,255,.96)';ctx.fillStyle='rgba(70,218,255,.12)';ctx.lineWidth=5;ctx.beginPath();ctx.ellipse(player.x+player.w/2,player.y+player.h/2,player.w*.57*pulse,player.h*.59*pulse,0,0,Math.PI*2);ctx.fill();ctx.stroke()}}
 function drawObstacle(o){const d=obstacleDefs[o.type],im=images[d.image];let y=o.y;if(o.type==='cat')y+=Math.sin(o.phase)*2;if(o.type==='duck')y+=Math.sin(o.phase*1.3)*4;drawImageFit(im,o.x,y,o.w,o.h)}
