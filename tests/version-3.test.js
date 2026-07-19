@@ -50,7 +50,7 @@ assert.ok(index.includes('VERSION 3.1'),'Index must display the Version 3.1 bann
 assert.ok(index.includes('classic-mobile-cleanup.css?v=3.1.0'),'Index must load classic mobile styles');
 assert.ok(index.includes('js/classic-preload.js?v=3.1.0'),'Index must load the tutorial preload');
 assert.ok(index.includes('js/classic-mobile-cleanup.js?v=3.1.0'),'Index must load classic cleanup last');
-assert.ok(worker.includes("dino-cat-dash-v18-3.2.0"),'Service worker must use the Classic plus Remix cache');
+assert.ok(worker.includes("dino-cat-dash-v19-3.2.1"),'Service worker must use the current Classic plus Remix cache');
 assert.ok(worker.includes("./js/classic-mobile-cleanup.js?v=3.1.0"),'Service worker must cache classic cleanup');
 assert.ok(worker.includes("./classic-mobile-cleanup.css?v=3.1.0"),'Service worker must cache classic styles');
 
