@@ -1,4 +1,4 @@
-const CACHE='dino-cat-dash-v20-3.2.2';
+const CACHE='dino-cat-dash-v21-3.2.3';
 const FALLBACK='./index.html?v=3.2.0';
 const CORE=[
   FALLBACK,
@@ -31,6 +31,7 @@ const CORE=[
   './js/gameplay-v3-guard.js?v=3.1.0',
   './js/classic-mobile-cleanup.js?v=3.1.0',
   './js/remix-entry.js?v=3.2.0',
+  './js/classic-boss-cat-polish.js?v=3.1.1',
   './remix/index.html?v=0.3.1',
   './remix/remix.css?v=0.3.0',
   './remix/remix.js?v=0.3.1',
