@@ -1,0 +1,34 @@
+name: Validate Rex Remix Prototype
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'remix/**'
+      - 'js/remix-entry.js'
+      - 'remix-entry.css'
+      - 'index.html'
+      - 'service-worker.js'
+      - 'tests/remix-prototype.test.js'
+      - '.github/workflows/validate-remix-prototype.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  remix-prototype:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check JavaScript syntax
+        run: |
+          node --check remix/remix.js
+          node --check js/remix-entry.js
+          node --check tests/remix-prototype.test.js
+          node --check service-worker.js
+      - name: Test Rex Remix prototype
+        run: node tests/remix-prototype.test.js

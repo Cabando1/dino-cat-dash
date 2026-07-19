@@ -1,0 +1,9 @@
+{
+  "name":"Dino Cat Dash: Rex Remix",
+  "short_name":"Rex Remix",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#071b34",
+  "theme_color":"#08213a",
+  "orientation":"landscape"
+}
