@@ -6,99 +6,30 @@
   <meta name="theme-color" content="#08213a">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Rex Remix is a premium illustrated side-scrolling adventure in the Dino Cat Dash universe.">
-  <link rel="stylesheet" href="./remix.css?v=0.1.0">
+  <meta name="description" content="Rex Remix is a self-contained illustrated side-scrolling adventure in the Dino Cat Dash universe.">
+  <link rel="stylesheet" href="./remix.css?v=0.2.0">
   <title>Dino Cat Dash: Rex Remix</title>
 </head>
 <body>
   <main class="remix-shell">
     <header class="remix-top">
-      <div class="brand">
-        <p>Rex's Big Adventure</p>
-        <h1>Rex Remix</h1>
-        <span>Backyard prototype</span>
-      </div>
-      <div class="top-actions">
-        <a class="classic-link" href="../">Classic</a>
-        <button id="instructionsBtn" type="button" aria-haspopup="dialog">Instructions</button>
-        <button id="soundBtn" type="button" aria-pressed="true">Sound On</button>
-      </div>
+      <div class="brand"><p>Rex's Big Adventure</p><h1>Rex Remix</h1><span>Illustrated Backyard v0.2</span></div>
+      <div class="top-actions"><a class="classic-link" href="../">Classic</a><button id="instructionsBtn" type="button">Instructions</button><button id="soundBtn" type="button" aria-pressed="true">Sound On</button></div>
     </header>
-
     <section class="remix-hud" aria-label="Game status">
-      <div><span>Score</span><strong id="score">0</strong></div>
-      <div><span>High</span><strong id="high">0</strong></div>
-      <div><span>Lives</span><strong id="lives" aria-label="5 lives">❤❤❤❤❤</strong></div>
-      <div><span>World</span><strong>Backyard</strong></div>
-      <div><span>Power</span><strong id="power">None</strong></div>
-      <div><span>Speed</span><strong id="speed">Warm-Up</strong></div>
+      <div><span>Score</span><strong id="score">0</strong></div><div><span>High</span><strong id="high">0</strong></div><div><span>Lives</span><strong id="lives">❤❤❤❤❤</strong></div><div><span>World</span><strong>Backyard</strong></div><div><span>Power</span><strong id="power">None</strong></div><div><span>Speed</span><strong id="speed">Warm-Up</strong></div>
     </section>
-
-    <section class="mission" aria-label="Prototype progress">
-      <div><span id="missionText">Backyard Run: 0 / 2,500</span><b><i id="missionBar"></i></b></div>
-    </section>
-
+    <section class="mission"><div><span id="missionText">Backyard Run: 0 / 2,500</span><b><i id="missionBar"></i></b></div></section>
     <section class="game-frame">
       <canvas id="remixGame" width="960" height="540" aria-label="Rex Remix side-scrolling game"></canvas>
-
-      <div id="startOverlay" class="overlay visible">
-        <section class="overlay-card hero-card">
-          <span class="new-badge">New illustrated prototype</span>
-          <h2>Welcome to Rex Remix</h2>
-          <p>A premium side-scrolling Backyard test with layered scenery, animated Rex, clearer obstacles, five lives, and forgiving collisions.</p>
-          <div class="preview-row" aria-hidden="true">
-            <span>😴🐈</span><span>🦆</span><span>🪵</span><span>🍕</span><span>🌳</span>
-          </div>
-          <button id="startBtn" class="primary" type="button">Start Backyard Run</button>
-          <a href="../" class="secondary-link">Return to Classic Adventure</a>
-        </section>
-      </div>
-
-      <div id="pauseOverlay" class="overlay">
-        <section class="overlay-card compact">
-          <p class="eyebrow">Adventure paused</p>
-          <h2>Rex is holding very still.</h2>
-          <button id="resumeBtn" class="primary" type="button">Resume</button>
-          <button id="restartBtn" class="secondary" type="button">Restart Run</button>
-          <a href="../" class="secondary-link">Classic Adventure</a>
-        </section>
-      </div>
-
-      <div id="gameOverOverlay" class="overlay">
-        <section class="overlay-card compact">
-          <p class="eyebrow">Run complete</p>
-          <h2 id="gameOverTitle">Backyard needs another pass.</h2>
-          <p id="gameOverMessage">Rex reached 0 points.</p>
-          <button id="playAgainBtn" class="primary" type="button">Play Again</button>
-          <a href="../" class="secondary-link">Classic Adventure</a>
-        </section>
-      </div>
-
+      <div id="startOverlay" class="overlay visible"><section class="overlay-card hero-card"><span class="new-badge">Self-contained repair build</span><h2>Welcome to Rex Remix</h2><p>Jump over sleeping cats, ducks, stumps, pizza, and tall trees. Collect shields, laser shots, and Mega Roar power.</p><div class="preview-row" aria-hidden="true"><span>😴🐈</span><span>🦆</span><span>🪵</span><span>🍕</span><span>🌳</span></div><button id="startBtn" class="primary" type="button">Start Backyard Run</button><a href="../" class="secondary-link">Return to Classic Adventure</a></section></div>
+      <div id="pauseOverlay" class="overlay"><section class="overlay-card compact"><p class="eyebrow">Adventure paused</p><h2>Rex is holding very still.</h2><button id="resumeBtn" class="primary" type="button">Resume</button><button id="restartBtn" class="secondary" type="button">Restart Run</button><a href="../" class="secondary-link">Classic Adventure</a></section></div>
+      <div id="gameOverOverlay" class="overlay"><section class="overlay-card compact"><p class="eyebrow">Run complete</p><h2 id="gameOverTitle">Backyard needs another pass.</h2><p id="gameOverMessage">Rex reached 0 points.</p><button id="playAgainBtn" class="primary" type="button">Play Again</button><a href="../" class="secondary-link">Classic Adventure</a></section></div>
       <div id="toast" class="toast" role="status" aria-live="polite"></div>
     </section>
-
-    <section class="remix-controls" aria-label="Game controls">
-      <button id="jumpBtn" type="button"><b>↑</b><span>Jump</span></button>
-      <button id="shootBtn" type="button" disabled><b>➤</b><span>Shoot</span></button>
-      <button id="roarBtn" class="roar" type="button" disabled><b>🦖</b><span>Mega Roar</span></button>
-      <button id="pauseBtn" class="pause" type="button"><b>Ⅱ</b><span>Pause</span></button>
-    </section>
+    <section class="remix-controls" aria-label="Game controls"><button id="jumpBtn" type="button"><b>↑</b><span>Jump</span></button><button id="shootBtn" type="button" disabled><b>➤</b><span>Shoot</span></button><button id="roarBtn" class="roar" type="button" disabled><b>🦖</b><span>Mega Roar</span></button><button id="pauseBtn" class="pause" type="button"><b>Ⅱ</b><span>Pause</span></button></section>
   </main>
-
-  <dialog id="instructionsDialog">
-    <div class="dialog-head">
-      <div><p>Rex Remix prototype</p><h2>How to Play</h2></div>
-      <button id="closeInstructionsBtn" type="button" aria-label="Close instructions">×</button>
-    </div>
-    <div class="instruction-grid">
-      <article><b>1</b><div><h3>Jump</h3><p>Tap for a normal jump. Hold briefly for extra height. The collision area is smaller than Rex's artwork.</p></div></article>
-      <article><b>2</b><div><h3>Obstacles</h3><p>Sleeping cats and ducks are low. Stumps and pizza are medium. Trees require an early, held jump.</p></div></article>
-      <article><b>3</b><div><h3>Power Orbs</h3><p>Blue grants a shield. Green grants laser shots. Gold charges Mega Roar.</p></div></article>
-      <article><b>4</b><div><h3>Five Lives</h3><p>After a hit, Rex flashes and receives two seconds of protection so one mistake does not remove several lives.</p></div></article>
-    </div>
-    <button id="dialogPlayBtn" class="primary" type="button">Play Rex Remix</button>
-  </dialog>
-
-  <script src="./remix.js?v=0.1.0"></script>
+  <dialog id="instructionsDialog"><div class="dialog-head"><div><p>Rex Remix v0.2</p><h2>How to Play</h2></div><button id="closeInstructionsBtn" type="button" aria-label="Close instructions">×</button></div><div class="instruction-grid"><article><b>1</b><div><h3>Jump</h3><p>Tap or press Space. Hold briefly for extra height.</p></div></article><article><b>2</b><div><h3>Obstacles</h3><p>Clear cats, ducks, stumps, pizza, and tall trees.</p></div></article><article><b>3</b><div><h3>Power Orbs</h3><p>Blue grants a shield, green grants lasers, and red charges Mega Roar.</p></div></article><article><b>4</b><div><h3>Five Lives</h3><p>After a hit, Rex receives two seconds of protection.</p></div></article></div><button id="dialogPlayBtn" class="primary" type="button">Play Rex Remix</button></dialog>
+  <script src="./remix.js?v=0.2.0"></script>
 </body>
 </html>
